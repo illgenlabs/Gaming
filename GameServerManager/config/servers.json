@@ -1,0 +1,111 @@
+{
+  "version": 1,
+  "servers": [
+    {
+      "id": "2afb15df6ac34439937a19ea0dce2b50",
+      "name": "CrossplayServer",
+      "server_type": "minecraft_paper",
+      "path": "C:\\GameServer\\MineCraftJavaCrossServer",
+      "action_scripts": {
+        "start": "startup.bat",
+        "stop": "",
+        "restart": "",
+        "update": "update.bat"
+      },
+      "active": true,
+      "detected_files": [
+        "server.properties",
+        "startup.bat",
+        "update.bat",
+        "world",
+        "plugins"
+      ],
+      "properties": {
+        "motd": "CrossplayServer",
+        "server-port": 25565,
+        "max-players": 20,
+        "white-list": true,
+        "enforce-whitelist": true,
+        "online-mode": true,
+        "gamemode": "survival",
+        "difficulty": "normal",
+        "view-distance": 12,
+        "simulation-distance": 12,
+        "level-name": "world"
+      },
+      "plugins": [
+        "Floodgate",
+        "Geyser",
+        "ViaVersion"
+      ],
+      "worlds": [
+        "world"
+      ],
+      "backup_paths": [],
+      "health_checks": [
+        {
+          "level": "ok",
+          "message": "Minecraft (Paper) detected."
+        },
+        {
+          "level": "ok",
+          "message": "Start script: startup.bat"
+        },
+        {
+          "level": "ok",
+          "message": "Minecraft can be stopped safely with the console command stop; no separate stop script is required."
+        }
+      ]
+    },
+    {
+      "id": "b506b52c997d4ea3b6b036a3ac8a7f21",
+      "name": "NitradoServer",
+      "server_type": "minecraft_vanilla",
+      "path": "C:\\GameServer\\MinecraftServerNitrado",
+      "action_scripts": {
+        "start": "startup.bat",
+        "stop": "",
+        "restart": "",
+        "update": ""
+      },
+      "active": false,
+      "detected_files": [
+        "server.properties",
+        "startup.bat",
+        "world"
+      ],
+      "properties": {
+        "motd": "NitradoServer",
+        "server-port": 25565,
+        "max-players": 20,
+        "white-list": true,
+        "enforce-whitelist": true,
+        "online-mode": true,
+        "gamemode": "survival",
+        "difficulty": "normal",
+        "view-distance": 12,
+        "simulation-distance": 12,
+        "level-name": "world"
+      },
+      "plugins": [],
+      "worlds": [
+        "world"
+      ],
+      "backup_paths": [],
+      "health_checks": [
+        {
+          "level": "ok",
+          "message": "Minecraft (Vanilla) detected."
+        },
+        {
+          "level": "ok",
+          "message": "Start script: startup.bat"
+        },
+        {
+          "level": "ok",
+          "message": "Minecraft can be stopped safely with the console command stop; no separate stop script is required."
+        }
+      ]
+    }
+  ]
+}

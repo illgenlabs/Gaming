@@ -1,0 +1,23 @@
+{
+  "version": 2,
+  "max_storage_per_server_gb": 50,
+  "minimum_full_backups": 2,
+  "exclude": [
+    "logs/**",
+    ".paper-remapped/**",
+    "**/cache/**",
+    "**/tmp/**",
+    "**/temp/**",
+    "**/*.tmp",
+    "**/*.lock",
+    "**/session.lock"
+  ],
+  "include": ["**"],
+  "retention": {
+    "full": 5,
+    "world": 20,
+    "plugin_update": 10,
+    "server_update": 5,
+    "manual": 10
+  }
+}

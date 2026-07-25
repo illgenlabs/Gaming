@@ -1,0 +1,12 @@
+{
+  "version": 3,
+  "server_root": "servers",
+  "backup_root": "backups",
+  "task_autostart": false,
+  "autostart_active_server": false,
+  "task_daily_maintenance": false,
+  "task_daily_time": "04:00",
+  "ntfy_enabled": false,
+  "ntfy_server_url": "https://ntfy.sh",
+  "ntfy_topic": ""
+}
