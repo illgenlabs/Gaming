@@ -1,0 +1,62 @@
+# ============================================================
+# Game Server Manager
+# Runtime files (do not commit)
+# ============================================================
+
+# Logs
+logs/
+*.log
+
+# User configuration
+config/settings.json
+config/*.local.json
+
+# Runtime server configuration
+servers/*.json
+
+# Local backups
+backups/
+
+# Temporary files
+temp/
+tmp/
+
+# Cache
+__pycache__/
+*.py[cod]
+
+# Build artifacts
+build/
+dist/
+
+# PyInstaller
+*.spec.bak
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# IDE
+.vscode/
+.idea/
+
+# Python virtual environments
+.venv/
+venv/
+env/
+
+# Test output
+coverage/
+htmlcov/
+.pytest_cache/
+
+# Local runtime files
+*.pid
+*.lock
+
+# Generated crash dumps
+*.dmp
+*.stackdump
+
+# ntfy local test configuration (if added later)
+config/ntfy-test.json
