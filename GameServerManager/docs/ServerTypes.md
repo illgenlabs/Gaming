@@ -2,6 +2,19 @@
 
 Game Server Manager manages existing server installations selected by the user. Detection is intentionally conservative and does not install, download, or copy server software.
 
+## Definition and detector separation
+
+Supported server types are registered centrally in `core/server_types.py`. A `ServerTypeDefinition` contains only shared, declarative behavior:
+
+- Display name and broad server family
+- Shutdown strategy and optional console command
+- Capability flags for automatic updates, plugins, and worlds
+- Static required and optional default backup paths
+
+Game-specific detection and parsing remain in `detectors/` and `minecraft/`. Detectors identify an installation, read its configuration, discover scripts, and resolve dynamic data such as Minecraft worlds or a Valheim `-savedir`. Process, update, backup, and UI code consume the central definition instead of duplicating server-name checks.
+
+This separation keeps server metadata centralized without moving executable behavior into external configuration files.
+
 ## Minecraft Java Edition
 
 Recognized families include:

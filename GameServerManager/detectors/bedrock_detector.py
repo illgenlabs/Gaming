@@ -1,6 +1,7 @@
 from __future__ import annotations
 from pathlib import Path
 from detectors.base_detector import BaseDetector
+from core.server_types import get_server_type
 from models import ACTIONS, HealthCheck, ServerInfo
 
 
@@ -10,11 +11,13 @@ class BedrockDetector(BaseDetector):
 
     def detect(self, path: Path) -> ServerInfo:
         props = self._props(path / "server.properties")
+        definition = get_server_type("minecraft_bedrock")
+        backup_paths = definition.backup_paths_for(path)
         scripts = self._scripts(path)
         world_name = props.get("level-name", "Bedrock level") or "Bedrock level"
         config_files = [x for x in ("server.properties", "allowlist.json", "permissions.json") if (path / x).is_file()]
         checks = [
-            HealthCheck("ok", "Minecraft Bedrock Dedicated Server detected."),
+            HealthCheck("ok", f"{definition.display_name} detected."),
             HealthCheck("ok" if scripts["start"] else "warning", f"Start script: {scripts['start'] or 'not configured'}"),
             HealthCheck("ok", "Minecraft Bedrock can be stopped safely with the console command stop."),
             HealthCheck("ok" if (path / "worlds").exists() else "info", "World data: worlds"),
@@ -29,7 +32,7 @@ class BedrockDetector(BaseDetector):
         }
         return ServerInfo("", props.get("server-name", "").strip() or path.name, "minecraft_bedrock", str(path),
                           scripts, False, ["bedrock_server.exe"] + config_files + [x for x in scripts.values() if x],
-                          relevant, [], ["worlds"], [], checks)
+                          relevant, [], list(definition.default_backup_paths), backup_paths, checks)
 
     @staticmethod
     def _scripts(path: Path) -> dict[str, str]:

@@ -60,13 +60,15 @@ Do not publish private ntfy topics, access tokens, server passwords, public IP a
 
 A focused server integration normally includes:
 
-1. A central type definition and capability flags in `core/server_types.py`.
-2. A detector in `detectors/` or `minecraft/`.
-3. Conservative start, stop, and update behavior.
-4. Safe default backup selection where possible.
+1. A central declarative `ServerTypeDefinition` in `core/server_types.py`.
+2. A detector in `detectors/` or `minecraft/` for installation-specific parsing and dynamic discovery.
+3. Conservative start, stop, and update behavior selected through the central definition.
+4. Static backup defaults in the type definition; dynamic backup discovery in the detector.
 5. Health checks for missing or inconsistent files.
 6. Documentation in `docs/ServerTypes.md`.
 7. A changelog entry.
+
+Do not add server-name conditionals to the UI or shared managers when a capability, stop strategy, or backup default belongs in `ServerTypeDefinition`.
 
 Avoid hard-coding an installation directory. Detection should start from the folder selected by the user.
 

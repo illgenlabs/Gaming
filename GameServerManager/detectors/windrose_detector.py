@@ -1,25 +1,12 @@
 from __future__ import annotations
 from pathlib import Path
 from detectors.base_detector import BaseDetector
+from core.server_types import get_server_type
 from models import HealthCheck, ServerInfo
 
 
 class WindroseDetector(BaseDetector):
     """Detects Windrose and its officially documented backup data."""
-
-    @staticmethod
-    def default_backup_paths(path: Path) -> list[str]:
-        paths: list[str] = []
-        save_root = Path("R5/Saved/SaveProfiles/Default")
-        # Keep the documented save root even before the first world is generated.
-        paths.append(save_root.as_posix())
-
-        for candidate in (Path("R5/ServerDescription.json"), Path("ServerDescription.json")):
-            if (path / candidate).is_file():
-                paths.append(candidate.as_posix())
-
-        # Some builds may place the file differently. Avoid duplicate entries.
-        return list(dict.fromkeys(paths))
 
     def can_handle(self, path: Path) -> bool:
         root_names = {p.name.casefold() for p in path.iterdir()}
@@ -46,14 +33,15 @@ class WindroseDetector(BaseDetector):
             for action, choices in candidates.items()
         }
 
-        backup_paths = self.default_backup_paths(path)
+        definition = get_server_type("windrose")
+        backup_paths = definition.backup_paths_for(path)
         save_path = path / "R5" / "Saved" / "SaveProfiles" / "Default"
         config_candidates = [
             candidate for candidate in ("R5/ServerDescription.json", "ServerDescription.json")
             if (path / candidate).is_file()
         ]
 
-        checks = [HealthCheck("ok", "Windrose Dedicated Server detected.")]
+        checks = [HealthCheck("ok", f"{definition.display_name} detected.")]
         checks.append(HealthCheck(
             "ok" if scripts["start"] else "error",
             f"Start script: {scripts['start'] or 'not configured'}",

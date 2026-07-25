@@ -6,7 +6,10 @@ The project currently uses phase-based version labels. Future public releases ma
 
 ## [Unreleased]
 
-- No unreleased changes documented yet.
+### Changed
+
+- Expanded `ServerTypeDefinition` into the central source for server family, shutdown strategy, capabilities, and static backup defaults.
+- Kept detector modules responsible only for installation detection, configuration parsing, script discovery, health checks, and dynamic backup paths.
 
 ## [Phase 8.9] - 2026-07-25
 

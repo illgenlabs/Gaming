@@ -2,6 +2,7 @@ from __future__ import annotations
 import re
 from pathlib import Path
 from detectors.base_detector import BaseDetector
+from core.server_types import get_server_type
 from models import ACTIONS, HealthCheck, ServerInfo
 
 
@@ -11,10 +12,11 @@ class ValheimDetector(BaseDetector):
 
     def detect(self, path: Path) -> ServerInfo:
         scripts = self._scripts(path)
+        definition = get_server_type("valheim")
         savedir = self._savedir(path, scripts.get("start", ""))
         backups = [savedir] if savedir else []
         checks = [
-            HealthCheck("ok", "Valheim Dedicated Server detected."),
+            HealthCheck("ok", f"{definition.display_name} detected."),
             HealthCheck("ok" if scripts["start"] else "warning", f"Start script: {scripts['start'] or 'not configured'}"),
             HealthCheck("info", "Valheim is stopped by terminating the exact managed process tree."),
         ]

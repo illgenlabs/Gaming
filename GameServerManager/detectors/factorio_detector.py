@@ -1,26 +1,21 @@
 from __future__ import annotations
 from pathlib import Path
 from detectors.base_detector import BaseDetector
+from core.server_types import get_server_type
 from models import ACTIONS, HealthCheck, ServerInfo
 
 
 class FactorioDetector(BaseDetector):
-    @staticmethod
-    def default_backup_paths(path: Path) -> list[str]:
-        candidates = ["saves", "config", "mods", "data/server-settings.json", "server-settings.json",
-                      "server-adminlist.json", "server-banlist.json", "server-whitelist.json"]
-        existing = [item for item in candidates if (path / item).exists()]
-        return existing or ["saves"]
-
     def can_handle(self, path: Path) -> bool:
         return (path / "bin" / "x64" / "factorio.exe").is_file() or (path / "factorio.exe").is_file()
 
     def detect(self, path: Path) -> ServerInfo:
         scripts = self._scripts(path)
         exe = "bin/x64/factorio.exe" if (path / "bin" / "x64" / "factorio.exe").is_file() else "factorio.exe"
-        backups = self.default_backup_paths(path)
+        definition = get_server_type("factorio")
+        backups = definition.backup_paths_for(path)
         checks = [
-            HealthCheck("ok", "Factorio Dedicated Server detected."),
+            HealthCheck("ok", f"{definition.display_name} detected."),
             HealthCheck("ok" if scripts["start"] else "warning", f"Start script: {scripts['start'] or 'not configured'}"),
             HealthCheck("ok", "The manager stops Factorio through the console command /quit."),
             HealthCheck("ok" if (path / "saves").exists() else "info", "Save data: saves"),
